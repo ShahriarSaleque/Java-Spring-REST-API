@@ -4,6 +4,8 @@ import com.devtiro.quickStart.domain.dto.BookDTO;
 import com.devtiro.quickStart.domain.entities.BookEntity;
 import com.devtiro.quickStart.mappers.Mapper;
 import com.devtiro.quickStart.services.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,10 +61,10 @@ public class BookController {
 
 
     @GetMapping("/books")
-    public List<BookDTO> listBooks() {
-        List<BookEntity> books = bookService.findAll();
+    public Page<BookDTO> listBooks(Pageable pageable) {
+        Page<BookEntity> books = bookService.findAll(pageable);
 
-        return books.stream().map(bookMapper::mapTo).collect(Collectors.toList());
+        return books.map(bookMapper::mapTo);
     }
 
     @GetMapping("/books/{isbn}")

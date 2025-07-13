@@ -3,8 +3,8 @@ package com.devtiro.quickStart.services.impl;
 import com.devtiro.quickStart.domain.entities.BookEntity;
 import com.devtiro.quickStart.repositories.BookRepository;
 import com.devtiro.quickStart.services.BookService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +30,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookEntity> findAll() {
         return StreamSupport.stream(bookRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<BookEntity> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
     @Override
